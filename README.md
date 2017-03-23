@@ -18,7 +18,7 @@ Created for my [Big mouth alexa bass](https://github.com/neyfrota/Big-Mouth-Alex
 
 Visit [alexa-avs-sample-app for Raspberry-Pi](https://github.com/alexa/alexa-avs-sample-app/wiki/Raspberry-Pi) and follow steps 2 (*Register for an Amazon developer account*) and step 3 (*Create a device and security profile*)
 
-Create a file  ```~/.alex.conf``` with this content
+Create a file  ```~/.alexa.conf``` with this content
 ```
 ProductID=<ProductID from step 3>
 ClientID=<ClientID from step 3>

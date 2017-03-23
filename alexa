@@ -1,0 +1,326 @@
+#!/usr/bin/perl
+#==================================================
+#
+# alexa command line client 
+#
+#==================================================
+#
+# by ney@frota.net
+# https://github.com/neyfrota/alexa-command-line-client
+# 23-march-2017
+#
+#==================================================
+
+
+
+
+
+#==================================================
+# load all we need 
+#==================================================
+use JSON qw( decode_json );
+use URI::Escape;
+#==================================================
+
+
+
+
+#==================================================
+# Main loop
+#==================================================
+my %config = &readConfig();
+$config{access_token}	= $config{access_token}		|| "";
+$config{refresh_token}	= $config{refresh_token}	|| "";
+$config{refresh_ts}		= $config{refresh_ts}		|| "";
+$config{product_id}		= $config{product_id}		|| "";
+$config{client_id}		= $config{client_id}		|| "";
+$config{client_secret}	= $config{client_secret}	|| "";
+$config{redirect_uri}	= $config{redirect_uri}		|| "";
+$no_settings 			= ( (!$config{product_id}) || (!$config{client_id}) || (!$config{client_secret}) || (!$config{redirect_uri}) ) ? 1 : 0;
+$no_token				= ( (!$config{access_token}) || (!$config{refresh_token}) ) ? 1 : 0;
+$action 				= (@ARGV)[0];
+if    ($action eq "login")	{ &login();				}
+elsif ($no_settings) 		{ &printNoSettings();	} 
+elsif ($no_token)			{ &printUsage("App is not authenticated. Please login");} 
+elsif ($action eq "test")	{ &test()				}
+elsif ($action eq "logout")	{ &logout()				}
+elsif ($action eq "ask")	{ &ask()				}
+else						{ &printUsage()			}
+exit;
+#==================================================
+
+
+
+
+#==================================================
+# actions
+#==================================================
+sub logout(){
+	&printBanner();
+print "Access token deleted (log-out)\n";
+unlink($config_file);
+}
+sub login(){
+	&printBanner();
+	if ( (!$config{access_token}) || (!$config{refresh_token}) ) {
+		$auth_code = (@ARGV)[1] || "";
+		if (!$auth_code) {
+			$auth_scope_data = "{\"alexa:all\": {\"productID\": \"$config{product_id}\", \"productInstanceAttributes\": {\"deviceSerialNumber\": \"1\"}}}";
+			$auth_url = "https://www.amazon.com/ap/oa?";
+			$auth_url .= "client_id=$config{client_id}";
+			$auth_url .= "&scope=".uri_escape("alexa:all");
+			$auth_url .= "&scope_data=".uri_escape($auth_scope_data );
+			$auth_url .= "&response_type=code";
+			$auth_url .= "&redirect_uri=".uri_escape($config{redirect_uri});
+			print "Please follow this instructions: \n";
+			print "- visit url (bellow)\n";
+			print "- login at amazon\n";
+			print "- extract code value at response url\n";
+			print "- re-run this command as: alexa login <CODE>\n";
+			print "\n";
+			print "$auth_url\n";
+			print "\n";
+			exit;
+		} else {
+			print "Using authentication code $auth_code to retrieve access token\n";
+			$data = "grant_type=authorization_code";
+			$data .= "&code=$auth_code";
+			$data .= "&client_id=$config{client_id}";
+			$data .= "&client_secret=$config{client_secret}";
+			$data .= "&redirect_uri=".uri_escape($config{redirect_uri});
+			$cmd = "curl -X POST -H \"application/x-www-form-urlencoded\"  --data \"$data\" https://api.amazon.com/auth/o2/token 2>/dev/null ";
+			$response = `$cmd`;
+			chomp($response); 
+			$decoded = decode_json($response);
+			$config{access_token}	= $decoded ->{'access_token'} || "";
+			$config{refresh_token}	= $decoded ->{'refresh_token'} || "";
+			$config{refresh_ts}		= time;  
+			$config{auth_code}     = $auth_code || "";
+			if ( (!$config{access_token}) || (!$config{refresh_token}) ) {
+				print "FAIL! cannot retrieve access token\n";
+				exit;
+			} else {
+				&writeConfig(%config);
+				print "Access token retrieve successfully (log-in)\n";
+			}
+		}
+	} else {
+		print "Already log-in\n";
+	}
+}
+sub ask(){
+	&printBanner();
+	print "Ask to alexa\n";
+	#
+	# prepare
+	my $file_request_wav	= "/tmp/alexa.request.wav";
+	my $file_request_json	= "/tmp/alexa.request.json";
+	my $file_response		= "/tmp/alexa.response.txt";
+	my $file_response_mp3	= "/tmp/alexa.response.mp3";
+	unlink($file_request_wav);
+	unlink($file_request_json);
+	unlink($file_response);
+	unlink($file_response_mp3);
+	open(OUT,">$file_request_json");
+print OUT qq[{
+	"messageHeader": {},
+	"messageBody": {
+		"profile": "alexa-close-talk",
+		"locale": "en-us",
+		"format": "audio/L16; rate=16000; channels=1"
+	}
+}
+];
+	#
+	# record
+	print "Start record\n";
+	&recordAudio($file_request_wav);
+	print "Stop record\n";
+	#$tmp = `mplayer $file_request_wav >/dev/null 2>/dev/null`;
+	#
+	# check record
+	#
+	# post to alexa
+	if (&refreshToken()) { print "Token refreshed\n";}
+	$cmd =  "curl -i ";
+	$cmd .= "-H \"Authorization: Bearer $config{access_token}\" ";
+	$cmd .= "-F \"metadata=<$file_request_json;type=application/json; charset=UTF-8\" ";
+	$cmd .= "-F \"audio=<$file_request_wav;type=audio/L16; rate=16000; channels=1\" ";
+	$cmd .= "-o $file_response ";
+	$cmd .= "https://access-alexa-na.amazon.com/v1/avs/speechrecognizer/recognize ";
+	print "Contact alexa...\n";
+	$tmp = `$cmd 2>/dev/null`;
+	#
+	# check response
+	unless (-e $file_response) {
+		# force refresh token in next time, just in case
+		$config{refresh_ts} = 0;
+		&writeConfig(%config);
+		die("No response from alexa\n");
+	}
+	open($fh,$file_response);
+	my $response = do { local $/; <$fh> };
+	close($fh);
+	if (index(substr($response,0,2048),"Content-Type: audio/mpeg") eq -1)  {
+		# force refresh token in next time, just in case
+		$config{refresh_ts} = 0;
+		&writeConfig(%config);
+		die("Response is not a audio/mpeg");
+	}
+	#
+	# TODO: remove audio in a better way. This is too dirt
+	my ($header, $body) = split(/mpeg\r\n\r\n/, $response);
+	my $audio = $body;
+	#
+	open($fh, ">", "$file_response_mp3");
+	print $fh "$audio";
+	close($fh);
+	#
+	# play response
+	print "play response\n";
+	&playAudio($file_response_mp3);
+	#
+	print "done\n";
+}
+sub test(){
+	&printBanner();
+	print "test microphone and speaker\n";
+	#
+	# prepare
+	my $file_request_wav	= "/tmp/alexa.request.wav";
+	unlink($file_request_wav);
+	#
+	# record
+	print "Start record\n";
+	&recordAudio($file_request_wav);
+	print "Play record\n";
+	&playAudio($file_request_wav);
+	print "done\n";
+}
+#==================================================
+
+
+
+
+#==================================================
+# helpers
+#==================================================
+sub printBanner(){
+print qq[==================================================
+alexa client
+==================================================
+];
+}
+sub printUsage(){
+    my($msg) = @_;
+    if ($msg) { $msg = "\n$msg\n"}
+	&printBanner();
+print qq[$msg
+usage: alexa COMMAND [ARGUMENTS]
+
+COMMAND:
+- login        : Initiate authentication process
+- login <code> : Finish authentication process
+- logout       : Remove authentication
+- test         : Record and play to test microphone and speaker
+- ask          : Record, send to alexa, play response
+
+];
+}
+sub printNoSettings(){
+	&printBanner();
+print qq[
+Missing settings. Please create ~/.alexa.conf (or /etc/alexa.conf) file and fill with:
+
+product_id=<ProductID FROM AMAZON SETUP>
+client_id=<ClientID FROM AMAZON SETUP>
+client_secret=<ClientSecret FROM AMAZON SETUP>
+redirect_uri=<redirectUri FROM AMAZON SETUP>
+
+Visit https://github.com/neyfrota/alexa-command-line-client for details.
+
+];
+}
+sub recordAudio(){
+	my($f) = @_;
+	if (!$f) {return 0}
+	my $tmp = `sox -d -c 1 -r 16000 -e signed -b 16 $f trim 0 8 >/dev/null 2>/dev/null`;
+	return 1;
+}
+sub playAudio(){
+	my($f) = @_;
+	if (!$f) {return 0}
+	my $tmp = `mplayer $f >/dev/null 2>/dev/null`;
+	return 1;
+}
+sub refreshToken(){
+	if ( (!$config{access_token}) || (!$config{refresh_token}) ) { return 0 }
+	$config{refresh_ts} = $config{refresh_ts} || 0;
+	if ( (time-$config{refresh_ts}) < (60*60*1)) { return 0 }
+	$data = "grant_type=refresh_token";
+	$data .= "&refresh_token=$config{refresh_token}";
+	$data .= "&client_id=$config{client_id}";
+	$data .= "&client_secret=$config{client_secret}";
+	$cmd = "curl -X POST -H \"application/x-www-form-urlencoded\"  --data \"$data\" https://api.amazon.com/auth/o2/token 2>/dev/null ";
+	$response = `$cmd`;
+	chomp($response); 
+	$decoded = decode_json($response);
+	$decoded{access_token}  = $decoded ->{'access_token'} || "";
+	$decoded{refresh_token} = $decoded ->{'refresh_token'} || "";
+	if ( (!$decoded{access_token}) || (!$decoded{refresh_token}) ) {
+		return 0;
+	} else {
+		$config{access_token}	= $decoded ->{'access_token'} || "";
+		$config{refresh_token}	= $decoded ->{'refresh_token'} || "";
+		$config{refresh_ts}		= time;
+		&writeConfig(%config);
+		return 1;
+	}
+}
+sub writeConfig(){
+	my(%d) = @_;
+	my($buf,$tmp,$tmp1,$tmp2,$l,$n,$v);
+	#
+	# decide file 
+	my $f = "";
+	if      (-e glob('~/.alexa.conf'))    { $f = glob('~/.alexa.conf');     }
+	elsif   (-e "/etc/alexa.conf")  { $f = "/etc/alexa.conf";   }
+	#
+	# create file buffer
+	$buf = "";
+	foreach(sort keys %d){$buf .= "$_=$d{$_}\n";}
+	#
+	open(OUT,">$f");
+	print OUT $buf;
+	close(OUT);
+	#
+}
+sub readConfig(){
+	my($tmp,$tmp1,$tmp2,$l,$n,$v);
+	my %out = ();
+	#
+	# decide file name 
+	my $f = "";
+	if      (-e glob('~/.alexa.conf'))    { $f = glob('~/.alexa.conf');     }
+	elsif   (-e "/etc/alexa.conf")  { $f = "/etc/alexa.conf";   }
+	unless  (-r $f) { return %out}
+	#
+	# read 
+	open(IN,$f);
+	while (<IN>){
+		chomp($_);
+		$l = $_;
+		if (substr($l,0,1) eq "#") {next}
+		if (index($l,"=") eq -1) {next}
+		$n = substr($l,0,index($l,"="));
+		$v = substr($l,index($l,"=")+1,4096);
+		$out{$n} = $v;
+	}
+	close(IN);
+	#
+	# return 
+	return %out;
+}
+#==================================================
+
+

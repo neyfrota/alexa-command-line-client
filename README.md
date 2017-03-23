@@ -9,10 +9,17 @@ alt="alexa interaction by command line" width="360" height="270" border="1" /></
 Created for my [Big mouth alexa bass](https://github.com/neyfrota/Big-Mouth-Alexa-Bass) project. Amazon alexa client app was too overkill and complex, so i need trim down.   
 
 ## Install 
-* copy ```alexa``` script to something in your path (no need clone repo)
-* Install dependences
-    * ```sudo apt-get install sox``` we use sox to record and manipulate audio
-    * ```sudo apt-get install mplayer``` we use mplayer to play audio
+
+* no need git checkout. Its just ONE file. follow this.
+* ```curl https://raw.githubusercontent.com/neyfrota/alexa-command-line-client/master/alexa > /tmp/alexa``` to save file at your temporary folder
+* ```head /tmp/alexa``` to check what we download. If all fine, you see my comments
+* ```chmod a+rx /tmp/alexa``` to make this executable
+* ```sudo mv /tmp/alexa /usr/bin/alexa``` to move to a place that everybody can use.
+* ```sudo apt-get install sox``` to install sox. we use sox to record and manipulate audio
+* ```sudo apt-get install mplayer``` to install mplayer we use mplayer to play audio
+* ```alexa test``` to test alexa script, record and playback (and by consequence sox and mplayer)
+* Adjust your system for better possible audio. 
+* done
 
 ## Configure
 
@@ -32,13 +39,9 @@ ReturnURLs=https://localhost:3000/authresponse
 * run "```alexa login```" so we can create a custom URL to authenticate the app
 * Copy url and visit in your browser
 * Login with same credential at step 2
-* Extract code value from response URL (*yes. page fail to load. This is fine. Focus in url*)
+* Extract code value from response URL (*yes. page fail to load. This is fine. Focus in url. Get code value between "code=" and "&" *)
 * run "```alexa login <code>```" so we generate access token and save local to persist authentication
 
-## Test audio
-
-* run "```alexa test```" to record and playback, so you can hear what alexa will hear
-* Adjust your system for better possible audio. 
 
 ## Ask
 

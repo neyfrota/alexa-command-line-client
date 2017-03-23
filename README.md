@@ -37,16 +37,16 @@ ReturnURLs=https://localhost:3000/authresponse
 
 ## Authenticate
 
-* run "```alexa login```" to get a custom URL to authenticate the app
+* run ```alexa login``` to get a custom URL to authenticate the app
 * Copy url and visit in your browser
 * Login with same credential at above step 2
 * Get code from response URL (*yes! page fail to load. its ok. Focus in url. Get code value between \'code=\' and \'&\'*)
-* run "```alexa login <code>```" so we generate access token and save local to persist authentication
+* run ```alexa login <code>``` so we generate access token and save local to persist authentication
 
 
 ## Ask
 
-* run "```alexa ask```" 
+* run ```alexa ask``` 
 * Ask something
 * listen alexa response
 

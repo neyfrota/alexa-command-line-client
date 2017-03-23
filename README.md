@@ -48,8 +48,9 @@ ReturnURLs=https://localhost:3000/authresponse
 
 ## Credits
 
-I cannot build this scrit without this help
+We standing on the shoulders of giants. This are my giants.
 
 * Miguel Mota with some code examples about alexa [authentication](https://miguelmota.com/blog/alexa-voice-service-authentication/) and [interaction by curl](https://miguelmota.com/blog/alexa-voice-service-with-curl/).
 * Russell Grokett wit more code examples in they [asterisk-raspberryPi-alexa](https://github.com/rgrokett/RaspiAsteriskAlexa) project
 * Amazon to provide [alexa information](https://github.com/alexa/) so we can hack and play
+* perl, linux etc etc

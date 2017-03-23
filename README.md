@@ -40,7 +40,7 @@ ReturnURLs=https://localhost:3000/authresponse
 * run "```alexa test```" to record and playback, so you can hear what alexa will hear
 * Adjust your system for better possible audio. 
 
-## ask
+## Ask
 
 * run "```alexa ask```" 
 * Ask something

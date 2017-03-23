@@ -4,7 +4,7 @@ A naive command line client to interact with alexa voice service (record, post a
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=W00Xq1SpXCs
 " target="_blank"><img src="http://img.youtube.com/vi/W00Xq1SpXCs/0.jpg" 
-alt="alexa interaction by command line" width="240" height="180" border="1" /></a>
+alt="alexa interaction by command line" width="360" height="270" border="1" /></a>
 
 Created for my [Big mouth alexa bass](https://github.com/neyfrota/Big-Mouth-Alexa-Bass/blob/master/bin/alexa.pl) project. Amazon alexa client app was too overkill and complex, so i need trim down.   
 

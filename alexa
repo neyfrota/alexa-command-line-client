@@ -29,11 +29,6 @@ use URI::Escape;
 # Main loop
 #==================================================
 my %config = &readConfig();
- (also known as Device Type ID),
-, and
-
-
-
 $config{access_token}	= $config{access_token}		|| "";
 $config{refresh_token}	= $config{refresh_token}	|| "";
 $config{refresh_ts}		= $config{refresh_ts}		|| "";
@@ -77,11 +72,13 @@ sub login(){
 			$auth_url .= "&scope_data=".uri_escape($auth_scope_data );
 			$auth_url .= "&response_type=code";
 			$auth_url .= "&redirect_uri=".uri_escape($config{ReturnURLs});
+			print "\n";
 			print "Please follow this instructions: \n";
-			print "- visit url (bellow)\n";
-			print "- login at amazon\n";
-			print "- extract code value at response url\n";
-			print "- re-run this command as: alexa login <CODE>\n";
+			print "\n";
+			print "1- visit url (bellow)\n";
+			print "2- login at amazon\n";
+			print "3- extract code value at response url\n";
+			print "4- run: alexa login <CODE>\n";
 			print "\n";
 			print "$auth_url\n";
 			print "\n";
@@ -235,14 +232,21 @@ COMMAND:
 sub printNoSettings(){
 	&printBanner();
 print qq[
-Missing settings. Please create ~/.alexa.conf (or /etc/alexa.conf) file and fill with:
+Missing settings.
 
-product_id=<ProductID FROM AMAZON SETUP>
-client_id=<ClientID FROM AMAZON SETUP>
-client_secret=<ClientSecret FROM AMAZON SETUP>
-redirect_uri=<redirectUri FROM AMAZON SETUP>
+1- Visit alexa-avs-sample-app for Raspberry-Pi* and follow
+   step 2 (Register for an Amazon developer account) and
+   step 3 (Create a device and security profile)
+   https://github.com/alexa/alexa-avs-sample-app/wiki/Raspberry-Pi
 
-Visit https://github.com/neyfrota/alexa-command-line-client for details.
+2- Create ~/.alexa.conf (or /etc/alexa.conf) file and fill with:
+
+   ProductID=<ProductID from step 3>
+   ClientID=<ClientID from step 3>
+   ClientSecret=<ClientSecret from step 3>
+   ReturnURLs=https://localhost:3000/authresponse
+
+3- run "alexa login" to authenticate
 
 ];
 }

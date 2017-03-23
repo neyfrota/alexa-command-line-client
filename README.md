@@ -6,7 +6,7 @@ A naive command line client to interact with alexa voice service (record, post a
 " target="_blank"><img src="http://img.youtube.com/vi/W00Xq1SpXCs/0.jpg" 
 alt="alexa interaction by command line" width="360" height="270" border="1" /></a>
 
-Created for my [Big mouth alexa bass](https://github.com/neyfrota/Big-Mouth-Alexa-Bass/blob/master/bin/alexa.pl) project. Amazon alexa client app was too overkill and complex, so i need trim down.   
+Created for my [Big mouth alexa bass](https://github.com/neyfrota/Big-Mouth-Alexa-Bass) project. Amazon alexa client app was too overkill and complex, so i need trim down.   
 
 ## Install 
 * copy ```alexa``` script to something in your path (no need clone repo)
@@ -45,3 +45,11 @@ ReturnURLs=https://localhost:3000/authresponse
 * run "```alexa ask```" 
 * Ask something
 * listen alexa response
+
+## Credits
+
+I cannot build this scrit without this help
+
+* Miguel Mota with some code examples about alexa [authentication](https://miguelmota.com/blog/alexa-voice-service-authentication/) and [interaction by curl](https://miguelmota.com/blog/alexa-voice-service-with-curl/).
+* Russell Grokett wit more code examples in they [asterisk-raspberryPi-alexa](https://github.com/rgrokett/RaspiAsteriskAlexa) project
+* Amazon to provide [alexa information](https://github.com/alexa/) so we can hack and play

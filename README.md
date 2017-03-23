@@ -12,6 +12,7 @@ Created for my [Big mouth alexa bass](https://github.com/neyfrota/Big-Mouth-Alex
 
 no need git checkout. Its just ONE file. follow this: 
 
+* i hope you using Raspbian or ubuntu :)
 * ```curl https://raw.githubusercontent.com/neyfrota/alexa-command-line-client/master/alexa > /tmp/alexa``` to save file at your temporary folder
 * ```head /tmp/alexa``` to check what we download. If all fine, you see my comments
 * ```chmod a+rx /tmp/alexa``` to make this executable

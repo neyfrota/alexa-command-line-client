@@ -16,14 +16,14 @@ Created for my [Big mouth alexa bass](https://github.com/neyfrota/Big-Mouth-Alex
 * ```chmod a+rx /tmp/alexa``` to make this executable
 * ```sudo mv /tmp/alexa /usr/bin/alexa``` to move to a place that everybody can use.
 * ```sudo apt-get install sox``` to install sox. we use sox to record and manipulate audio
-* ```sudo apt-get install mplayer``` to install mplayer we use mplayer to play audio
-* ```alexa test``` to test alexa script, record and playback (and by consequence sox and mplayer)
-* Adjust your system for better possible audio. 
+* ```sudo apt-get install mplayer``` to install mplayer. we use mplayer to play audio
+* ```alexa test``` to test alexa script, record and playback.
+* Adjust your system for better audio possible. 
 * done
 
 ## Configure
 
-Visit [alexa-avs-sample-app for Raspberry-Pi](https://github.com/alexa/alexa-avs-sample-app/wiki/Raspberry-Pi) and follow steps 2 (*Register for an Amazon developer account*) and step 3 (*Create a device and security profile*)
+Visit [alexa-avs-sample-app for Raspberry-Pi](https://github.com/alexa/alexa-avs-sample-app/wiki/Raspberry-Pi) and follow step 2 (*Register for an Amazon developer account*) and step 3 (*Create a device and security profile*)
 
 Create a file  ```~/.alexa.conf``` with this content
 ```
@@ -36,10 +36,10 @@ ReturnURLs=https://localhost:3000/authresponse
 
 ## Authenticate
 
-* run "```alexa login```" so we can create a custom URL to authenticate the app
+* run "```alexa login```" to get a custom URL to authenticate the app
 * Copy url and visit in your browser
-* Login with same credential at step 2
-* Get code from response URL (*yes! page fail to load. its ok. Focus in url. Get code value between "code=" and "&" *)
+* Login with same credential at above step 2
+* Get code from response URL (*yes! page fail to load. its ok. Focus in url. Get code value between \'code=\' and \'&\'*)
 * run "```alexa login <code>```" so we generate access token and save local to persist authentication
 
 

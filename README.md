@@ -9,10 +9,12 @@ alt="alexa interaction by command line" width="360" height="270" border="1" /></
 Created for my [Big mouth alexa bass](https://github.com/neyfrota/Big-Mouth-Alexa-Bass) project. Amazon alexa client app was too overkill and complex, so i need trim down.   
 
 ## Install 
-* copy ```alexa``` script to something in your path (no need clone repo)
-* Install dependences
-    * ```sudo apt-get install sox``` we use sox to record and manipulate audio
-    * ```sudo apt-get install mplayer``` we use mplayer to play audio
+* ```sudo apt-get install sox``` we use sox to record and manipulate audio, so we need install
+* ```sudo apt-get install mplayer``` we use mplayer to play audio, so we need install
+* ```sudo mkdir /opt/alexa-command-line-client``` create a folder to store project
+* ```sudo chown $USER /opt/alexa-command-line-client``` change ownership to make it easy
+* ```git clone git@github.com:neyfrota/alexa-command-line-client.git /opt/alexa-command-line-client``` clone project in above folder
+* ```sudo ln -s  /opt/alexa-command-line-client/alexa /usr/bin/alexa``` add alexa command line to a well known folder so we can run in any place
 
 ## Configure
 

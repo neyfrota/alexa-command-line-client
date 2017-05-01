@@ -7,7 +7,7 @@ A command line client to interact with alexa voice service (record, post audio, 
 alt="alexa interaction by command line" width="360" height="270" border="1" /></a>
 
 
-## Install 
+# Install 
 * ```sudo apt-get install sox``` we use sox to record and manipulate audio, so we need install
 * ```sudo apt-get install mplayer``` we use mplayer to play audio, so we need install
 * ```sudo mkdir /opt/alexa-command-line-client``` create a folder to store project
@@ -15,7 +15,7 @@ alt="alexa interaction by command line" width="360" height="270" border="1" /></
 * ```git clone git@github.com:neyfrota/alexa-command-line-client.git /opt/alexa-command-line-client``` clone project in above folder
 * ```sudo ln -s  /opt/alexa-command-line-client/alexa /usr/bin/alexa``` add alexa command line to a well known folder so we can run in any place
 
-## Configure
+# Configure
 
 Visit [alexa-avs-sample-app for Raspberry-Pi](https://github.com/alexa/alexa-avs-sample-app/wiki/Raspberry-Pi) and follow steps 2 (*Register for an Amazon developer account*) and step 3 (*Create a device and security profile*)
 
@@ -28,7 +28,7 @@ ReturnURLs=https://localhost:3000/authresponse
 
 ```
 
-## Authenticate
+# Authenticate
 
 * run "```alexa login```" so we can create a custom URL to authenticate the app
 * Copy url and visit in your browser
@@ -36,18 +36,18 @@ ReturnURLs=https://localhost:3000/authresponse
 * Extract code value from response URL (*yes. page fail to load. This is fine. Focus in url*)
 * run "```alexa login <code>```" so we generate access token and save local to persist authentication
 
-## Test audio
+# Test audio
 
 * run "```alexa test```" to record and playback, so you can hear what alexa will hear
 * Adjust your system for better possible audio. 
 
-## Ask
+# Ask
 
 * run "```alexa ask```" 
 * Ask something
 * listen alexa response
 
-## Credits
+# Credits
 
 I cannot build this without help. **__"I am what I am because of who we all are"__**
 

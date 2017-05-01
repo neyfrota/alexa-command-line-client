@@ -1,12 +1,11 @@
 # alexa command line client
 
-A naive command line client to interact with alexa voice service (record, post audio, play response)
+A command line client to interact with alexa voice service (record, post audio, play response) for my [Big mouth alexa bass](https://github.com/neyfrota/Big-Mouth-Alexa-Bass) project.
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=W00Xq1SpXCs
 " target="_blank"><img src="http://img.youtube.com/vi/W00Xq1SpXCs/0.jpg" 
 alt="alexa interaction by command line" width="360" height="270" border="1" /></a>
 
-Created for my [Big mouth alexa bass](https://github.com/neyfrota/Big-Mouth-Alexa-Bass) project. Amazon alexa client app was too overkill and complex, so i need trim down.   
 
 ## Install 
 * ```sudo apt-get install sox``` we use sox to record and manipulate audio, so we need install

@@ -208,10 +208,7 @@ sub test(){
 # helpers
 #==================================================
 sub printBanner(){
-print qq[==================================================
-alexa client
-==================================================
-];
+print "alexa command line client\n";
 }
 sub printUsage(){
     my($msg) = @_;

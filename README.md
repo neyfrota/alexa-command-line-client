@@ -1,4 +1,4 @@
-# alexa command line client
+# Alexa command line client
 
 A command line client to interact with alexa voice service for my [Billy Bass Alexa Client](https://github.com/neyfrota/Billy-Bass-Alexa-Client) project.
 

@@ -4,8 +4,8 @@ A command line client to interact with alexa voice service for my [Billy Bass Al
 
 * **Command line based:** ```alexa ask``` record, post audio at amazon and play response using default mic and speaker. 
 * **Simple:** Can inetegrate in multiple other projects. ("hey alexa" [hotword detection](https://github.com/neyfrota/hotword-detection-service) for example) 
-* **Lite:** Just a perl script. Official alexa client is a very heavy and complex system using java and node
-* **Authentication persistence:** Automatic persist and refresh tokens even after reboot.    
+* **Lite:** Just a perl script + sox/mplayer. Official alexa client is a very heavy and complex system using java and node
+* **Authentication smart:** Automatic persist and refresh authentication tokens even after reboot.    
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=W00Xq1SpXCs
 " target="_blank"><img src="http://img.youtube.com/vi/W00Xq1SpXCs/0.jpg" 

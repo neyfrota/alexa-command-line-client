@@ -1,6 +1,6 @@
 # Alexa command line client
 
-A command line client to interact with alexa voice service for my [Billy Bass Alexa Client](https://github.com/neyfrota/Billy-Bass-Alexa-Client) project.
+A alexa client for my [Billy Bass Alexa Client](https://github.com/neyfrota/Billy-Bass-Alexa-Client) project.
 
 * **Command line based:** ```alexa ask``` record, post audio at amazon and play response using default mic and speaker. 
 * **Simple:** Can inetegrate in multiple other projects. ("hey alexa" [hotword detection](https://github.com/neyfrota/hotword-detection-service) for example) 

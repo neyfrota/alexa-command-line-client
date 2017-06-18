@@ -12,8 +12,8 @@ A alexa client for my [Billy Bass voice assistant](https://github.com/neyfrota/B
 alt="alexa interaction by command line" width="360" height="270" border="1" /></a>
 
 # Install 
-* ```sudo apt-get install sox``` we use sox to record and manipulate audio, so we need install
-* ```sudo apt-get install mplayer``` we use mplayer to play audio, so we need install
+* ```sudo apt-get install sox mplayer``` we need sox and mplayer to manipulate audio
+* ```sudo apt-get install libjson-perl liburi-perl``` We need some perl modules
 * ```sudo git -C /opt/ clone https://github.com/neyfrota/alexa-command-line-client.git``` clone project
 * ```sudo ln -s  /opt/alexa-command-line-client/alexa /usr/bin/alexa``` add alexa command line to a well known folder so we can run in any place
 

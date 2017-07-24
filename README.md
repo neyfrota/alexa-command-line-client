@@ -3,7 +3,7 @@
 A alexa client for my [voice assistant](https://github.com/neyfrota/Billy-bass-voice-assistant/).
 
 * **Command line based:** ```alexa ask``` record, post audio at amazon and play response. 
-* **kiss:** Keep it simple and stupid. (Official raspberry alexa client is heavy and complex)
+* **Kiss:** Keep it simple and stupid. (Official raspberrypi alexa client is heavy and complex)
 * **Smart authentication:** Automatic persist and refresh authentication tokens (even after reboot)    
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=W00Xq1SpXCs

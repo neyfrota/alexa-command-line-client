@@ -1,23 +1,30 @@
 # Alexa command line client
 
-A alexa client for my [Billy Bass voice assistant](https://github.com/neyfrota/Billy-bass-voice-assistant/blob/master/README.md).
+A alexa client for my [voice assistant](https://github.com/neyfrota/Billy-bass-voice-assistant/).
 
-* **Command line based:** ```alexa ask``` record, post audio at amazon and play response using default mic and speaker. 
-* **Simple:** Can inetegrate in multiple other projects. ("hey alexa" [hotword detection](https://github.com/neyfrota/hotword-detection-service) for example) 
-* **Lite:** Just a perl script + sox/mplayer. Official alexa client is a very heavy and complex system using java and node
-* **Authentication smart:** Automatic persist and refresh authentication tokens even after reboot.    
+* **Command line based:** ```alexa ask``` record, post audio at amazon and play response. 
+* **kiss:** Keep it simple and stupid. (Official raspberry alexa client is heavy and complex)
+* **Smart authentication:** Automatic persist and refresh authentication tokens (even after reboot)    
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=W00Xq1SpXCs
 " target="_blank"><img src="http://img.youtube.com/vi/W00Xq1SpXCs/0.jpg" 
 alt="alexa interaction by command line" width="360" height="270" border="1" /></a>
 
 # Install 
-* ```sudo apt-get install sox mplayer``` we need sox and mplayer to manipulate audio
-* ```sudo apt-get install libjson-perl liburi-perl``` We need some perl modules
-* ```sudo git -C /opt/ clone https://github.com/neyfrota/alexa-command-line-client.git``` clone project
-* ```sudo ln -s  /opt/alexa-command-line-client/alexa /usr/bin/alexa``` add alexa command line to a well known folder so we can run in any place
+Install dependency
+```
+sudo apt-get install sox mplayer libjson-perl liburi-perl
+``` 
+Install and link to a well known folder (so we can run in any place) 
 
-# Register at amazon
+```
+sudo git -C /opt/ clone https://github.com/neyfrota/alexa-command-line-client.git
+sudo ln -s  /opt/alexa-command-line-client/alexa /usr/bin/alexa
+``` 
+
+# Register your app
+
+We need register your alexa app at amazon. 
 
 Visit [alexa-avs-sample-app for Raspberry-Pi](https://github.com/alexa/alexa-avs-sample-app/wiki/Raspberry-Pi) and follow steps 2 (*Register for an Amazon developer account*) and step 3 (*Create a device and security profile*)
 
@@ -30,7 +37,9 @@ ReturnURLs=https://localhost:3000/authresponse
 
 ```
 
-# Authenticate
+# Log-in
+
+We need log-in to link your local alexa command to your amazon device.
 
 * run "```alexa login```" so we can create a custom URL to authenticate the app
 * Copy url and visit in your browser
@@ -38,20 +47,22 @@ ReturnURLs=https://localhost:3000/authresponse
 * Extract code value from response URL (*yes. page fail to load. This is fine. Focus in url*)
 * run "```alexa login <code>```" so we generate access token and save local to persist authentication
 
-# Test
+# Adjust audio
 
 * run "```alexa test```" to record and playback, so you can hear what alexa will hear
-* Adjust your audio. Check [microphone setup](https://github.com/neyfrota/Billy-Bass-Alexa-Client/blob/master/docs/audio.md) for help.
+* Adjust your audio. Check [raspberry pi audio setup](https://permissiontowrite.wordpress.com/raspberry-pi-audio-setup/)
 
-# Ask
+
+# Run
 
 * run "```alexa ask```" 
 * Ask something
 * listen alexa response
 
-# Credits
+We recommend check [hotwordDetection](https://github.com/neyfrota/hotwordDetection) to enable "hey alexa" hotword
 
-I cannot build this without help. **__"I am what I am because of who we all are"__**
+
+# Credits
 
 * Miguel Mota with some code examples about alexa [authentication](https://miguelmota.com/blog/alexa-voice-service-authentication/) and [interaction by curl](https://miguelmota.com/blog/alexa-voice-service-with-curl/).
 * Russell Grokett wit more code examples in they [asterisk-raspberryPi-alexa](https://github.com/rgrokett/RaspiAsteriskAlexa) project

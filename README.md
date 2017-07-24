@@ -15,6 +15,8 @@ Install dependency
 ```
 sudo apt-get install sox mplayer libjson-perl liburi-perl
 ``` 
+[Configure raspberry pi audio](https://permissiontowrite.wordpress.com/raspberry-pi-audio-setup/)
+
 Install and link to a well known folder (so we can run in any place) 
 
 ```
@@ -22,7 +24,7 @@ sudo git -C /opt/ clone https://github.com/neyfrota/alexa-command-line-client.gi
 sudo ln -s  /opt/alexa-command-line-client/alexa /usr/bin/alexa
 ``` 
 
-# Register your app
+# Register
 
 We need register your alexa app at amazon. 
 
@@ -47,17 +49,18 @@ We need log-in to link your local alexa command to your amazon device.
 * Extract code value from response URL (*yes. page fail to load. This is fine. Focus in url*)
 * run "```alexa login <code>```" so we generate access token and save local to persist authentication
 
-# Adjust audio
-
-* run "```alexa test```" to record and playback, so you can hear what alexa will hear
-* Adjust your audio. Check [raspberry pi audio setup](https://permissiontowrite.wordpress.com/raspberry-pi-audio-setup/)
-
 
 # Run
 
-* run "```alexa ask```" 
-* Ask something
-* listen alexa response
+Run local record/playback test, so you can hear what alexa will hear. Adjust [audio](https://permissiontowrite.wordpress.com/raspberry-pi-audio-setup/) if need
+```
+alexa test
+``` 
+
+ask something to alexa and listen response
+```
+alexa ask
+```
 
 We recommend check [hotwordDetection](https://github.com/neyfrota/hotwordDetection) to enable "hey alexa" hotword
 
